@@ -11,8 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.3",
-    "falcor-express": "^0.1.4",
-    "falcor-router": "^0.2.12"
+    "express": "^4.15.4",
+    "fs": "0.0.1-security"
   }
 }

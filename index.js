@@ -1,26 +1,19 @@
-var falcorExpress = require('falcor-express');
-var Router = require('falcor-router');
 var express = require('express');
-var Library = require('./champs_db.json');
 var app = express();
+var fs = require('fs');
 
-app.use('/champs.json', falcorExpress.dataSourceRoute(function (req, res) {
-  return new Router([
-    {
-      route: "champs",
-      get: function() {
-        return {path:["champs"], value: JSON.stringify(Library) };
-      }
-    },
-    {
-      route: "camps.title",
-      get: function() {
-        return {path:["champs","title"], value: Library.map( champ => champ.title )};
-      }
-    }
-  ]);
-}));
+app.get('/champs/pl', function (req, res) {
+        fs.readFile( __dirname + "/data/" + "pl_db.json", 'utf8', function (err, data) {
+                    console.log( data );
+                    res.end( data );
+                    });
+        })
 
-app.use(express.static(__dirname + '/'));
-
-var server = app.listen(process.env.PORT || 80);
+var server = app.listen(8080, function () {
+                        
+                        var host = server.address().address
+                        var port = server.address().port
+                        
+                        console.log("Example app listening at http://%s:%s", host, port)
+                        
+                        })
