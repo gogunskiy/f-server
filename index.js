@@ -23,4 +23,4 @@ app.use('/champs.json', falcorExpress.dataSourceRoute(function (req, res) {
 
 app.use(express.static(__dirname + '/'));
 
-var server = app.listen(process.env.PORT || 1337);
+var server = app.listen(process.env.PORT || 80);
