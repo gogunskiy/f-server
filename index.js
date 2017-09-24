@@ -36,7 +36,12 @@ function loadAll() {
             var cronJobTeams = cron.job("0 */2 * * * *", function() {
                 for (var i=0; i<competitions.length; i++) {
                     var comp = competitions[i]
-                    downloadAndSave(comp._links.teams.href, 'eebe59492a314214b93ee1bf3dc30ba8')
+                    downloadAndSave(comp._links.teams.href, 'eebe59492a314214b93ee1bf3dc30ba8', function(teamsData) {
+                        for (var i=0; i<teamsData.teams.length; i++) {
+                            var team = teamsData.teams[i]
+                            downloadAndSave(team._links.players.href, 'bf4a43952c7540e2a427b68efea76f1b')
+                        }
+                    })
                 }
             })
 
@@ -91,6 +96,19 @@ app.get('/competitions/:id/teams', function (req, res) {
     var id = req.params.id;
 
     resources.loadResource("_competitions_" + id + "_teams", function (data, error) {
+        if (typeof data === 'undefined' || !data) {
+            res.end( error );
+        } else {
+            res.end( data );
+        }
+    })
+})
+
+app.get('/teams/:id/players', function (req, res) {
+
+    var id = req.params.id;
+
+    resources.loadResource("_teams_" + id + "_players", function (data, error) {
         if (typeof data === 'undefined' || !data) {
             res.end( error );
         } else {
